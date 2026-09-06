@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 6th Anniversary, Sayang! 💖</title>
+
+<!-- Font: Dancing Script & Caveat untuk judul/tulisan tangan, Poppins untuk teks isi -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Caveat:wght@500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   0. RESET & VARIABEL WARNA / FONT
+   ========================================================= */
+:root{
+  --cream: #FFF8F3;
+  --pink-soft: #FFE7EE;
+  --pink-mid: #FFC1D3;
+  --pink-deep: #FF6F91;
+  --rose-gold: #B76E79;
+  --rose-gold-light: #E8C4C4;
+  --plum-dark: #5C2A3B;
+  --plum-deeper: #3E1B29;
+  --text-dark: #5A3E3E;
+  --text-soft: #9A7A7A;
+
+  --font-title: 'Dancing Script', cursive;
+  --font-hand: 'Caveat', cursive;
+  --font-body: 'Poppins', sans-serif;
+
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+*, *::before, *::after{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--cream);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Kunci scroll halaman di awal sebelum diklik */
+body.locked-scroll {
+  overflow-y: hidden;
+  height: 100vh;
+}
+
+img{ max-width: 100%; display: block; }
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   1. UTILITAS ANIMASI SCROLL
+   ========================================================= */
+.reveal{
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.9s var(--ease-smooth), transform 0.9s var(--ease-smooth);
+  will-change: transform, opacity;
+}
+.reveal.visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal[data-delay="1"]{ transition-delay: .1s; }
+.reveal[data-delay="2"]{ transition-delay: .2s; }
+.reveal[data-delay="3"]{ transition-delay: .3s; }
+.reveal[data-delay="4"]{ transition-delay: .4s; }
+.reveal[data-delay="5"]{ transition-delay: .5s; }
+.reveal[data-delay="6"]{ transition-delay: .6s; }
+
+section{
+  padding: 90px 20px;
+  position: relative;
+}
+
+.section-inner{
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.section-title{
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  color: var(--pink-deep);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.section-subtitle{
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  color: var(--rose-gold);
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* =========================================================
+   2. FLOATING HEARTS DEKORASI
+   ========================================================= */
+.floating-hearts{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.floating-hearts span{
+  position: absolute;
+  bottom: -10%;
+  font-size: 1.4rem;
+  opacity: 0.35;
+  animation: floatUp linear infinite;
+  color: var(--pink-deep);
+}
+@keyframes floatUp{
+  0%{ transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10%{ opacity: 0.4; }
+  90%{ opacity: 0.25; }
+  100%{ transform: translateY(-110vh) translateX(20px) rotate(25deg); opacity: 0; }
+}
+
+/* =========================================================
+   3. FLOATING MUSIC BUTTON
+   ========================================================= */
+.music-btn{
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+  background: linear-gradient(135deg, var(--rose-gold), var(--pink-deep));
+  color: #fff;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(183, 110, 121, 0.4);
+  transition: transform 0.45s var(--ease-smooth), box-shadow 0.45s var(--ease-smooth);
+}
+.music-btn:hover{
+  transform: scale(1.12) rotate(-6deg);
+  box-shadow: 0 10px 26px rgba(183, 110, 121, 0.55);
+}
+.music-btn:active{
+  transform: scale(0.94);
+}
+.music-btn .icon{
+  transition: transform 0.5s var(--ease-smooth);
+}
+.music-btn.playing .icon{
+  animation: spinSlow 4s linear infinite;
+}
+@keyframes spinSlow{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(360deg); }
+}
+
+/* =========================================================
+   4. HERO SECTION
+   ========================================================= */
+.hero{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--pink-soft) 50%, var(--pink-mid) 100%);
+  padding: 40px 20px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  color: var(--pink-deep);
+  text-shadow: 0 4px 24px rgba(255, 111, 145, 0.25);
+  opacity: 0;
+  transform: translateY(-25px) scale(0.96);
+  animation: heroEntrance 1.3s var(--ease-smooth) forwards;
+  animation-delay: 0.2s;
+}
+
+.hero-subtitle{
+  font-family: var(--font-hand);
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  color: var(--rose-gold);
+  max-width: 600px;
+  margin-top: 22px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroEntrance 1.3s var(--ease-smooth) forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes heroEntrance{
+  to{ opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hero-heart{
+  font-size: 2.2rem;
+  margin-top: 25px;
+  opacity: 0;
+  animation: heroEntrance 1.3s var(--ease-smooth) forwards, gentleBeat 2.4s ease-in-out infinite;
+  animation-delay: 1.1s, 1.1s;
+}
+@keyframes gentleBeat{
+  0%, 100%{ transform: scale(1); }
+  50%{ transform: scale(1.18); }
+}
+
+/* Tombol Klik Aku di Layar Pertama */
+.start-btn {
+  margin-top: 50px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--rose-gold), var(--pink-deep));
+  border: none;
+  padding: 16px 38px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(255, 111, 145, 0.35);
+  transition: transform 0.3s var(--ease-smooth), opacity 0.5s;
+  opacity: 0;
+  animation: heroEntrance 1s var(--ease-smooth) forwards, pulseRing 2.4s infinite;
+  animation-delay: 1.5s, 1.5s;
+}
+.start-btn:hover {
+  transform: scale(1.06);
+}
+.start-btn:active {
+  transform: scale(0.96);
+}
+
+/* =========================================================
+   5. GALERI
+   ========================================================= */
+.gallery-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 28px;
+}
+
+.gallery-item{
+  background: #fff;
+  border-radius: 22px;
+  padding: 14px 14px 18px;
+  box-shadow: 0 12px 30px rgba(183, 110, 121, 0.18);
+  text-align: center;
+  transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.gallery-item:hover, .gallery-item:active{
+  box-shadow: 0 22px 45px rgba(183, 110, 121, 0.3);
+}
+
+.gallery-photo{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: filter 0.4s ease-in-out;
+}
+
+.gallery-caption{
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--rose-gold);
+  margin-top: 12px;
+}
+
+.video-wrapper{
+  max-width: 560px;
+  margin: 50px auto 0;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(183, 110, 121, 0.28);
+  background: #000;
+  transition: transform 0.5s var(--ease-smooth);
+}
+.video-wrapper:hover{
+  transform: scale(1.015);
+}
+.video-wrapper video{
+  width: 100%;
+  display: block;
+  border-radius: 24px;
+}
+
+/* =========================================================
+   6. FUN STATS
+   ========================================================= */
+.stats-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 26px;
+}
+
+.stat-card{
+  background: linear-gradient(160deg, #fff, var(--pink-soft));
+  border-radius: 20px;
+  padding: 32px 18px;
+  text-align: center;
+  box-shadow: 0 10px 26px rgba(183, 110, 121, 0.15);
+  transition: transform 0.45s var(--ease-smooth), box-shadow 0.45s var(--ease-smooth);
+}
+.stat-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 18px 34px rgba(183, 110, 121, 0.25);
+}
+
+.stat-number{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 2.6rem;
+  color: var(--pink-deep);
+  display: block;
+}
+
+.stat-label{
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  margin-top: 8px;
+}
+
+/* =========================================================
+   7. PESAN UTAMA
+   ========================================================= */
+.letter-card{
+  background: var(--cream);
+  border-radius: 6px;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: clamp(30px, 6vw, 60px);
+  box-shadow: 0 25px 60px rgba(183, 110, 121, 0.22);
+  transform: rotate(-1deg);
+  position: relative;
+  border: 1px solid rgba(183, 110, 121, 0.15);
+}
+.letter-card::before{
+  content: '💌';
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.2rem;
+  background: var(--cream);
+  padding: 0 10px;
+}
+
+.letter-text{
+  font-size: 1.05rem;
+  color: var(--text-dark);
+}
+.letter-text p{
+  margin-bottom: 18px;
+}
+.letter-signature{
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  color: var(--pink-deep);
+  text-align: right;
+  margin-top: 10px;
+}
+
+.gift-btn-wrapper{
+  text-align: center;
+  margin-top: 60px;
+}
+
+.gift-btn{
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--rose-gold), var(--pink-deep));
+  border: none;
+  padding: 18px 38px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(255, 111, 145, 0.35);
+  transition: transform 0.35s var(--ease-smooth);
+  animation: pulseRing 2.4s ease-in-out infinite, breathe 2.4s ease-in-out infinite;
+}
+.gift-btn:hover{
+  transform: scale(1.06);
+}
+.gift-btn:active{
+  transform: scale(0.96);
+}
+@keyframes pulseRing{
+  0%{ box-shadow: 0 0 0 0 rgba(255, 111, 145, 0.45); }
+  70%{ box-shadow: 0 0 0 22px rgba(255, 111, 145, 0); }
+  100%{ box-shadow: 0 0 0 0 rgba(255, 111, 145, 0); }
+}
+@keyframes breathe{
+  0%, 100%{ transform: scale(1); }
+  50%{ transform: scale(1.045); }
+}
+
+/* =========================================================
+   8. SURPRISE SECTION
+   ========================================================= */
+#surprise{
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--plum-dark), var(--plum-deeper));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px 20px;
+}
+
+#petals-canvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.heart-wrap{
+  position: relative;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 1s var(--ease-elastic), transform 1.1s var(--ease-elastic);
+}
+.heart-wrap.show{
+  opacity: 1;
+  transform: scale(1);
+}
+.heart-wrap.show .big-heart{
+  animation: heartGlow 2.6s ease-in-out infinite alternate, heartBeat 1.8s ease-in-out infinite;
+  animation-delay: 1.1s, 1.1s;
+}
+
+.big-heart{
+  width: clamp(140px, 30vw, 220px);
+  height: auto;
+  filter: drop-shadow(0 0 25px rgba(255, 143, 163, 0.7));
+}
+
+@keyframes heartGlow{
+  0%{ filter: drop-shadow(0 0 18px rgba(255, 143, 163, 0.55)); }
+  100%{ filter: drop-shadow(0 0 45px rgba(255, 143, 163, 0.95)); }
+}
+@keyframes heartBeat{
+  0%, 100%{ transform: scale(1); }
+  15%{ transform: scale(1.08); }
+  30%{ transform: scale(1); }
+  45%{ transform: scale(1.08); }
+  60%{ transform: scale(1); }
+}
+
+.surprise-text{
+  font-family: var(--font-title);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: #fff;
+  text-align: center;
+  margin-top: 34px;
+  opacity: 0;
+  transition: opacity 1.3s ease-in-out, transform 1.3s ease-in-out;
+  transform: translateY(15px);
+  transition-delay: 0.9s;
+}
+.heart-wrap.show ~ .surprise-text,
+#surprise.active .surprise-text{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.surprise-sub{
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  color: var(--pink-mid);
+  text-align: center;
+  margin-top: 10px;
+  opacity: 0;
+  transition: opacity 1.3s ease-in-out;
+  transition-delay: 1.3s;
+}
+#surprise.active .surprise-sub{
+  opacity: 1;
+}
+
+footer{
+  text-align: center;
+  padding: 30px 20px 40px;
+  background: var(--plum-deeper);
+  color: var(--pink-mid);
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px){
+  section{ padding: 60px 16px; }
+  .letter-card{ transform: rotate(0deg); }
+  .music-btn{ width: 52px; height: 52px; bottom: 16px; right: 16px; }
+}
+</style>
+</head>
+<body class="locked-scroll">
+
+<div class="floating-hearts" aria-hidden="true">
+  <span style="left:8%;  font-size:1.1rem; animation-duration: 14s; animation-delay: 0s;">💗</span>
+  <span style="left:22%; font-size:1.6rem; animation-duration: 18s; animation-delay: 2s;">🌸</span>
+  <span style="left:40%; font-size:1rem;   animation-duration: 12s; animation-delay: 4s;">💖</span>
+  <span style="left:58%; font-size:1.4rem; animation-duration: 20s; animation-delay: 1s;">🌷</span>
+  <span style="left:74%; font-size:1.2rem; animation-duration: 16s; animation-delay: 3s;">💕</span>
+  <span style="left:88%; font-size:1.5rem; animation-duration: 19s; animation-delay: 5s;">🌸</span>
+</div>
+
+<audio id="bgm" loop preload="auto">
+  <source src="./aniv/RAN - Dekat Di Hati.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" id="musicBtn" aria-label="Putar/pause musik">
+  <span class="icon" id="musicIcon">▶️</span>
+</button>
+
+<!-- HERO SECTION / LAYAR AWAL YANG TERKUNCI -->
+<header class="hero">
+  <h1 class="hero-title">Happy 6 Months, MY LOVE! 💖</h1>
+  <p class="hero-subtitle">Meski terhalang jarak, So happy bisa lewatin setengah tahun ini bareng kamu ✨</p>
+  <div class="hero-heart">🌷</div>
+  
+  <!-- Tombol utama pengganti scroll hint -->
+  <button class="start-btn" id="startBtn">Click Here ✨</button>
+</header>
+
+<!-- GALERI FOTO & VIDEO -->
+<section id="galeri">
+  <div class="section-inner">
+    <h2 class="section-title reveal">OUR MEMORIES GALLERY</h2>
+    <p class="section-subtitle reveal" data-delay="1">Virtual moments today, real-life polaroids tomorrow. 📸✨</p>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal" data-delay="1">
+        <img class="gallery-photo" src="./aniv/img/1.jpeg" alt="Screenshot Call">
+        <p class="gallery-caption">Falling asleep on our call. You looked so peaceful here. 😴🤍</p>
+      </div>
+      <div class="gallery-item reveal" data-delay="2">
+        <img class="gallery-photo" src="./aniv/img/2.jpeg" alt="Pap Foto">
+        <p class="gallery-caption">Posing with your favorite plushie. I honestly can't tell which one is cuter. 🧸✨</p>
+      </div>
+      <div class="gallery-item reveal" data-delay="3">
+        <img class="gallery-photo" src="./aniv/img/3.jpeg" alt="SS Call">
+        <p class="gallery-caption">You being cheeky and teasing me with my own silly photo. So annoying but I love you! 🙄😂</p>
+      </div>
+      <div class="gallery-item reveal" data-delay="4">
+        <img class="gallery-photo" src="./aniv/img/4.jpeg" alt="Makan Bareng">
+        <p class="gallery-caption">Our virtual date! Distance won't stop us from taking a picture together. 💻🤍</p>
+      </div>
+      <div class="gallery-item reveal" data-delay="5">
+        <img class="gallery-photo" src="./aniv/img/5.jpeg" alt="SS Lucu">
+        <p class="gallery-caption">You and your beloved Abu! Look at those two cuties. 🐈🐾</p>
+      </div>
+      <div class="gallery-item reveal" data-delay="6">
+        <img class="gallery-photo" src="./aniv/img/6.jpeg" alt="Foto Pacar">
+        <p class="gallery-caption">And this one... this will always be my absolute favorite photo of you. 🥺❤️</p>
+      </div>
+    </div>
+
+    <div class="video-wrapper reveal" data-delay="2">
+      <video controls poster="https://placehold.co/800x450/ffe1e9/b76e79?text=Screen+Record+Video+Call">
+        <source src="GANTI_VIDEO_KAMU.mp4" type="video/mp4">
+        Browser kamu tidak mendukung video ini.
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- FUN STATS -->
+<section id="stats" style="background: var(--pink-soft);">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Our Story in Numbers</h2>
+    <p class="section-subtitle reveal" data-delay="1">Bukti kalau jarak cuma sekadar angka ☁️✨</p>
+
+    <div class="stats-grid">
+      <div class="stat-card reveal" data-delay="1">
+        <span class="stat-number" data-target="6">0</span>
+        <p class="stat-label">Months of loving you from afar.</p>
+      </div>
+      <div class="stat-card reveal" data-delay="2">
+        <span class="stat-number" data-target="180">0</span>
+        <p class="stat-label">Days apart by distance but close in heart.</p>
+      </div>
+      <div class="stat-card reveal" data-delay="3">
+        <span class="stat-number">Ribuan</span>
+        <p class="stat-label">Menit durasi video call & voice call kita WKWKWK</p>
+      </div>
+      <div class="stat-card reveal" data-delay="4">
+        <span class="stat-number">∞</span>
+        <p class="stat-label">Excitement for the day we finally meet in person 🤍</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SURPRISE SECTION (sekarang muncul lebih dulu, sebelum surat) -->
+<section id="surprise">
+  <canvas id="petals-canvas"></canvas>
+
+  <div class="heart-wrap" id="heartWrap">
+    <svg class="big-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFB6C1"/>
+          <stop offset="100%" stop-color="#FF6F91"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#heartGrad)" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+  </div>
+
+  <p class="surprise-text">Gak Sabar Buat Ketemu Kamu! ❤️</p>
+  <p class="surprise-sub">Semoga kelak kita bisa merayakan anniversary sambil tatap muka langsung ya 🌷</p>
+
+  <!-- Tombol ini sekarang jadi jembatan menuju slide surat/text message di bawah -->
+  <div class="gift-btn-wrapper reveal" data-delay="2">
+    <button class="gift-btn" id="giftBtn">Klik untuk kejutan terakhir! 🎁</button>
+  </div>
+</section>
+
+<!-- PESAN UTAMA / TEXT MESSAGE (sekarang jadi slide paling akhir) -->
+<section id="pesan">
+  <div class="section-inner">
+    <h2 class="section-title reveal">Surat Jarak Jauh Buat Kamu</h2>
+
+    <div class="letter-card reveal" data-delay="1">
+      <div class="letter-text">
+        <p>Hai sayang,</p>
+        <p>Nggak berasa ya kita udah bertahan selama 6 bulan ini. Walaupun kita belum sempat tatap muka dan meluk secara langsung, tapi kehadiran kamu lewat layar HP setiap hari udah cukup banget buat nemenin hari-hariku.</p>
+        <p>Makasih banyak ya udah mau berjuang di hubungan jarak jauh ini. Makasih udah selalu sabar, rajin ngasih kabar, dan bikin uk ngerasa selalu didampingi meskipun ada jarak di antara kita.</p>
+        <p>Aku percaya, semua hari-hari nunggu dan kangen ini bakal terbayar tuntas waktu kita ketemu nanti. Sampai hari itu tiba, tetap saling jaga dan saling sayang ya.</p>
+      </div>
+      <p class="letter-signature">Dari yang selalu kangen kamu 🤍</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Dibuat khusus dari jauh, penuh rasa sayang 💌
+</footer>
+
+<script>
+/* =========================================================
+   MENGATUR POSISI SCROLL KE ATAS SETIAP HALAMAN DIREFRESH
+   ========================================================= */
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
+/* =========================================================
+   SISTEM TOMBOL "CLICK HERE" & AUTOPLAY MUSIK
+   ========================================================= */
+const bgm = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
+const musicIcon = document.getElementById('musicIcon');
+const startBtn = document.getElementById('startBtn');
+const galeriSection = document.getElementById('galeri');
+
+startBtn.addEventListener('click', () => {
+  // 1. Buka kunci scroll
+  document.body.classList.remove('locked-scroll');
+  
+  // 2. Putar lagu seketika
+  bgm.play().then(() => {
+    musicIcon.textContent = '⏸️';
+    musicBtn.classList.add('playing');
+  }).catch((err) => {
+    console.log('Pastikan file MP3 bernama "RAN - Dekat Di Hati.mp3" ada di folder yang sama.');
+  });
+  
+  // 3. Scroll otomatis ke bagian galeri (ganti slide)
+  galeriSection.scrollIntoView({ behavior: 'smooth' });
+  
+  // 4. Hilangkan tombol "Click Here" agar layar pertama bersih jika di-scroll ke atas lagi
+  startBtn.style.display = 'none';
+});
+
+// Controls Tombol Musik Manual di Pojok Kanan
+musicBtn.addEventListener('click', () => {
+  if (bgm.paused){
+    bgm.play();
+    musicIcon.textContent = '⏸️';
+    musicBtn.classList.add('playing');
+  } else {
+    bgm.pause();
+    musicIcon.textContent = '▶️';
+    musicBtn.classList.remove('playing');
+  }
+});
+
+/* SCROLL REVEAL */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* COUNTER ANGKA */
+function animateCounter(el){
+  const target = parseInt(el.getAttribute('data-target'), 10);
+  const duration = 1400;
+  const startTime = performance.now();
+
+  function step(now){
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target);
+    if (progress < 1){
+      requestAnimationFrame(step);
+    } else {
+      el.textContent = target;
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+const counterEls = document.querySelectorAll('.stat-number[data-target]');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+counterEls.forEach(el => counterObserver.observe(el));
+
+/* TILT GALERI */
+const galleryItems = document.querySelectorAll('.gallery-item');
+galleryItems.forEach(item => {
+  item.addEventListener('mousemove', (e) => {
+    const rect = item.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = ((y - rect.height / 2) / rect.height) * -10;
+    const rotateY = ((x - rect.width / 2) / rect.width) * 10;
+    item.style.transform = `perspective(700px) scale(1.05) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+  item.addEventListener('mouseleave', () => {
+    item.style.transform = 'perspective(700px) scale(1) rotateX(0deg) rotateY(0deg)';
+  });
+});
+
+/* EFEK KEJUTAN */
+const giftBtn = document.getElementById('giftBtn');
+const surpriseSection = document.getElementById('surprise');
+const pesanSection = document.getElementById('pesan');
+const heartWrap = document.getElementById('heartWrap');
+const canvas = document.getElementById('petals-canvas');
+const ctx = canvas.getContext('2d');
+
+let petals = [];
+let petalsStarted = false;
+
+function resizeCanvas(){
+  canvas.width = surpriseSection.offsetWidth;
+  canvas.height = surpriseSection.offsetHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+
+class Petal{
+  constructor(width){
+    this.reset(width, true);
+  }
+  reset(width){
+    this.x = Math.random() * width;
+    this.y = -30;
+    this.size = 8 + Math.random() * 14;
+    this.speedY = 0.5 + Math.random() * 1.3;
+    this.swing = Math.random() * Math.PI * 2;
+    this.swingSpeed = 0.008 + Math.random() * 0.02;
+    this.rotation = Math.random() * 360;
+    this.rotationSpeed = (Math.random() - 0.5) * 2.2;
+    this.opacity = 0.5 + Math.random() * 0.5;
+    const colors = ['#FFB6C1', '#FF8FA3', '#FFD6E0', '#E8A0BF', '#FF6F91'];
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+  }
+  update(height){
+    this.swing += this.swingSpeed;
+    this.x += Math.sin(this.swing) * 1.1;
+    this.y += this.speedY;
+    this.rotation += this.rotationSpeed;
+    return this.y < height + 40;
+  }
+  draw(ctx){
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate((this.rotation * Math.PI) / 180);
+    ctx.globalAlpha = this.opacity;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, this.size / 2, this.size / 3, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function animatePetals(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  petals = petals.filter(p => {
+    const alive = p.update(canvas.height);
+    if (alive) p.draw(ctx);
+    return alive;
+  });
+  requestAnimationFrame(animatePetals);
+}
+
+function startPetalRain(){
+  if (petalsStarted) return;
+  petalsStarted = true;
+  resizeCanvas();
+  setInterval(() => {
+    if (petals.length < 70){
+      petals.push(new Petal(canvas.width));
+    }
+  }, 220);
+  animatePetals();
+}
+
+function triggerSurprise(){
+  surpriseSection.classList.add('active');
+  heartWrap.classList.add('show');
+  startPetalRain();
+}
+
+/* =========================================================
+   GERBANG SCROLL: kunci agar tidak bisa scroll manual dari
+   slide "surprise" menuju slide "pesan" (text message).
+   Baru bisa lanjut setelah tombol diklik.
+   ========================================================= */
+let pesanUnlocked = false;
+let scrollLockTicking = false;
+
+function getSurpriseTopAbsolute(){
+  // posisi absolut (relatif ke dokumen) dari bagian atas slide surprise
+  return surpriseSection.getBoundingClientRect().top + window.scrollY;
+}
+
+window.addEventListener('scroll', () => {
+  if (pesanUnlocked) return; // sudah boleh lanjut, tidak perlu dikunci lagi
+  if (scrollLockTicking) return;
+  scrollLockTicking = true;
+  requestAnimationFrame(() => {
+    const maxScrollY = getSurpriseTopAbsolute();
+    if (window.scrollY > maxScrollY){
+      // tarik balik ke posisi awal slide surprise (efek "dinding")
+      window.scrollTo({ top: maxScrollY, left: 0, behavior: 'auto' });
+    }
+    scrollLockTicking = false;
+  });
+}, { passive: true });
+
+giftBtn.addEventListener('click', () => {
+  // Baru di sini gerbangnya dibuka, lalu otomatis meluncur ke slide surat
+  pesanUnlocked = true;
+  pesanSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+const surpriseObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      triggerSurprise();
+      surpriseObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+surpriseObserver.observe(surpriseSection);
+</script>
+</body>
+</html>
