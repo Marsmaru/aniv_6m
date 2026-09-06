@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Happy 6th Anniversary, Sayang! 💖</title>
 
 <!-- Font: Dancing Script & Caveat untuk judul/tulisan tangan, Poppins untuk teks isi -->
@@ -42,6 +42,8 @@
 
 html{
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body{
@@ -49,13 +51,20 @@ body{
   color: var(--text-dark);
   background: var(--cream);
   overflow-x: hidden;
+  width: 100%;
   line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
 }
 
-/* Kunci scroll halaman di awal sebelum diklik */
+/* Kunci scroll halaman di awal sebelum diklik.
+   Pakai 3 baris height bertingkat: browser lama pakai 100vh,
+   browser modern (iOS/Android terbaru) pakai 100svh (smallest
+   visible height) supaya tombol "Click Here" tidak ketutup
+   address bar dan tetap bisa dijangkau walau scroll dikunci. */
 body.locked-scroll {
   overflow-y: hidden;
   height: 100vh;
+  height: 100svh;
 }
 
 img{ max-width: 100%; display: block; }
@@ -91,12 +100,24 @@ img{ max-width: 100%; display: block; }
 
 section{
   padding: 90px 20px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
   position: relative;
 }
 
 .section-inner{
   max-width: 1000px;
   margin: 0 auto;
+}
+
+/* =========================================================
+   TABLET (iPad, dsb.) — supaya tidak terlalu lebar/kosong
+   dan grid galeri/stats terasa pas di layar medium
+   ========================================================= */
+@media (min-width: 601px) and (max-width: 1024px){
+  .section-inner{ max-width: 92%; }
+  .gallery-grid{ grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .stats-grid{ grid-template-columns: repeat(2, 1fr); gap: 22px; }
 }
 
 .section-title{
@@ -147,6 +168,8 @@ section{
   position: fixed;
   bottom: 24px;
   right: 24px;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  right: max(24px, env(safe-area-inset-right));
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -185,6 +208,7 @@ section{
    ========================================================= */
 .hero{
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -192,8 +216,10 @@ section{
   text-align: center;
   background: linear-gradient(135deg, var(--cream) 0%, var(--pink-soft) 50%, var(--pink-mid) 100%);
   padding: 40px 20px 80px;
+  padding-bottom: max(80px, env(safe-area-inset-bottom));
   position: relative;
   z-index: 2;
+  overflow: hidden;
 }
 
 .hero-title{
@@ -435,6 +461,7 @@ section{
    ========================================================= */
 #surprise{
   min-height: 100vh;
+  min-height: 100svh;
   background: linear-gradient(160deg, var(--plum-dark), var(--plum-deeper));
   display: flex;
   flex-direction: column;
@@ -442,6 +469,7 @@ section{
   justify-content: center;
   overflow: hidden;
   padding: 60px 20px;
+  padding-bottom: max(60px, env(safe-area-inset-bottom));
 }
 
 #petals-canvas{
@@ -527,9 +555,49 @@ footer{
 }
 
 @media (max-width: 600px){
-  section{ padding: 60px 16px; }
+  section{
+    padding: 60px 16px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
   .letter-card{ transform: rotate(0deg); }
-  .music-btn{ width: 52px; height: 52px; bottom: 16px; right: 16px; }
+  .music-btn{
+    width: 52px;
+    height: 52px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* Layar sangat sempit (mis. Samsung A07 ~360px) biar teks & tombol
+   tidak terasa sesak */
+@media (max-width: 380px){
+  .hero-title{ font-size: clamp(2rem, 8vw, 2.6rem); }
+  .hero-subtitle{ font-size: clamp(1.05rem, 4vw, 1.3rem); }
+  .start-btn, .gift-btn{ padding: 14px 26px; font-size: 0.95rem; }
+  .stat-number{ font-size: clamp(2rem, 9vw, 2.4rem); }
+  .letter-text{ font-size: 0.95rem; }
+}
+
+/* Landscape pendek (mis. iPhone XS diputar horizontal, tinggi ~375px).
+   Slide "hero" & "surprise" scroll-nya dikunci, jadi semua isinya
+   WAJIB muat di layar tanpa perlu scroll, kalau tidak tombolnya
+   jadi tidak kelihatan/tidak bisa diklik. Rapatkan jarak & ukuran
+   supaya tetap pas. */
+@media (max-height: 500px) and (orientation: landscape){
+  .hero, #surprise{
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .hero-title{ font-size: clamp(1.5rem, 6vw, 2.2rem); }
+  .hero-subtitle{ margin-top: 10px; font-size: clamp(0.95rem, 3vw, 1.2rem); }
+  .hero-heart{ margin-top: 8px; font-size: 1.5rem; }
+  .start-btn{ margin-top: 16px; padding: 10px 26px; font-size: 0.95rem; }
+  .big-heart{ width: clamp(80px, 18vw, 130px); }
+  .surprise-text{ margin-top: 12px; font-size: clamp(1.2rem, 4vw, 1.6rem); }
+  .surprise-sub{ margin-top: 6px; font-size: 1.05rem; }
+  .gift-btn-wrapper{ margin-top: 18px; }
+  .gift-btn{ padding: 10px 24px; font-size: 0.9rem; }
 }
 </style>
 </head>
@@ -545,7 +613,7 @@ footer{
 </div>
 
 <audio id="bgm" loop preload="auto">
-  <source src="./aniv/RAN - Dekat Di Hati.mp3" type="audio/mpeg">
+  <source src="RAN - Dekat Di Hati.mp3" type="audio/mpeg">
 </audio>
 
 <button class="music-btn" id="musicBtn" aria-label="Putar/pause musik">
@@ -569,27 +637,27 @@ footer{
     <p class="section-subtitle reveal" data-delay="1">Virtual moments today, real-life polaroids tomorrow. 📸✨</p>
     <div class="gallery-grid">
       <div class="gallery-item reveal" data-delay="1">
-        <img class="gallery-photo" src="./aniv/img/1.jpeg" alt="Screenshot Call">
+        <img class="gallery-photo" src="/img/1.jpeg" alt="Screenshot Call">
         <p class="gallery-caption">Falling asleep on our call. You looked so peaceful here. 😴🤍</p>
       </div>
       <div class="gallery-item reveal" data-delay="2">
-        <img class="gallery-photo" src="./aniv/img/2.jpeg" alt="Pap Foto">
+        <img class="gallery-photo" src="/img/2.jpeg" alt="Pap Foto">
         <p class="gallery-caption">Posing with your favorite plushie. I honestly can't tell which one is cuter. 🧸✨</p>
       </div>
       <div class="gallery-item reveal" data-delay="3">
-        <img class="gallery-photo" src="./aniv/img/3.jpeg" alt="SS Call">
+        <img class="gallery-photo" src="/img/3.jpeg" alt="SS Call">
         <p class="gallery-caption">You being cheeky and teasing me with my own silly photo. So annoying but I love you! 🙄😂</p>
       </div>
       <div class="gallery-item reveal" data-delay="4">
-        <img class="gallery-photo" src="./aniv/img/4.jpeg" alt="Makan Bareng">
+        <img class="gallery-photo" src="/img/4.jpeg" alt="Makan Bareng">
         <p class="gallery-caption">Our virtual date! Distance won't stop us from taking a picture together. 💻🤍</p>
       </div>
       <div class="gallery-item reveal" data-delay="5">
-        <img class="gallery-photo" src="./aniv/img/5.jpeg" alt="SS Lucu">
+        <img class="gallery-photo" src="/img/5.jpeg" alt="SS Lucu">
         <p class="gallery-caption">You and your beloved Abu! Look at those two cuties. 🐈🐾</p>
       </div>
       <div class="gallery-item reveal" data-delay="6">
-        <img class="gallery-photo" src="./aniv/img/6.jpeg" alt="Foto Pacar">
+        <img class="gallery-photo" src="/img/6.jpeg" alt="Foto Pacar">
         <p class="gallery-caption">And this one... this will always be my absolute favorite photo of you. 🥺❤️</p>
       </div>
     </div>
